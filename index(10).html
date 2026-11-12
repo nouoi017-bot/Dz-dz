@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10131c">
+<title>Waleed Player — مشغل الفيديو</title>
+<style>
+:root{--bg:#0d1018;--panel:#171c28;--panel2:#202737;--text:#f4f6fb;--muted:#9aa5b8;--accent:#6c8cff;--line:#2b3446;--shadow:0 18px 50px #0005}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#1b2850 0,transparent 35%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;min-height:100vh}
+body.light{--bg:#eef1f8;--panel:#fff;--panel2:#f0f3fa;--text:#172033;--muted:#667085;--accent:#4169e1;--line:#dce2ee;--shadow:0 18px 50px #24345a18;background:linear-gradient(135deg,#eef2ff,#f8faff 55%,#e8edfa)}
+button,input{font:inherit}button{cursor:pointer;border:0;color:inherit}.app{max-width:1450px;margin:auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#6c8cff,#9b6cff);display:grid;place-items:center;font-size:22px;box-shadow:0 8px 25px #6c8cff55}.brand h1{font-size:20px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.top-actions{display:flex;gap:9px}.icon-btn,.soft-btn{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 13px}.icon-btn{font-size:18px;min-width:42px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px}.main,.sidebar{min-width:0}.player-card,.side-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}.screen{background:#05070b;aspect-ratio:16/9;position:relative;display:grid;place-items:center}.screen video{width:100%;height:100%;object-fit:contain;display:block}.empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;color:#dce3f4;pointer-events:none}.empty .big{font-size:56px;opacity:.9}.empty h2{font-size:21px;margin:12px 0 5px}.empty p{color:#9da9bd;margin:0;font-size:13px}.player-info{padding:17px 19px 14px}.video-title{font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.subline{color:var(--muted);font-size:12px;margin-top:5px}.controls{padding:0 19px 18px}.seek-wrap{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}input[type=range]{accent-color:var(--accent);cursor:pointer}.seek{width:100%;height:5px}.control-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}.control-group{display:flex;align-items:center;gap:7px}.ctrl{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:9px 11px;min-height:40px}.ctrl:hover,.soft-btn:hover,.icon-btn:hover{border-color:var(--accent)}.play{background:var(--accent);color:white;font-size:18px;min-width:48px}.volume{width:82px}.select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px}.sidebar{display:flex;flex-direction:column;gap:16px}.side-card{padding:17px}.side-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.side-head h3{font-size:15px;margin:0}.count{color:var(--muted);font-size:12px}.add-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}.add-btn{background:var(--panel2);border:1px dashed #586784;border-radius:13px;padding:14px 8px;text-align:center;font-size:13px}.add-btn b{display:block;font-size:21px;margin-bottom:5px}.url-row{display:flex;gap:7px;margin-top:10px}.url-row input{min-width:0;flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px;color:var(--text);outline:none}.url-row input:focus{border-color:var(--accent)}.primary{background:var(--accent);color:white;border-radius:11px;padding:10px 14px;font-weight:600}.hint{color:var(--muted);font-size:11px;line-height:1.7;margin:10px 0 0}.playlist{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:auto}.track{display:flex;align-items:center;gap:10px;padding:9px;border-radius:12px;background:var(--panel2);border:1px solid transparent;cursor:pointer;min-width:0}.track.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,var(--panel2))}.thumb{width:54px;height:42px;flex:none;border-radius:8px;background:linear-gradient(135deg,#293653,#121722);display:grid;place-items:center;color:#aab9ff}.track-meta{min-width:0;flex:1}.track-name{font-size:12px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-type{font-size:10px;color:var(--muted);margin-top:3px}.remove{background:transparent;color:var(--muted);padding:5px;font-size:16px}.empty-list{text-align:center;color:var(--muted);font-size:12px;padding:20px 5px}.tools{display:flex;gap:8px;flex-wrap:wrap}.tools button{font-size:12px}.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px 0 4px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:#202a3c;color:white;padding:11px 16px;border-radius:12px;opacity:0;transition:.2s;pointer-events:none;box-shadow:var(--shadow);z-index:9}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr}.sidebar .playlist-card{grid-column:1/-1}}
+@media(max-width:560px){.app{padding:12px}.topbar{margin-bottom:14px}.brand h1{font-size:17px}.brand p{font-size:10px}.sidebar{display:flex}.player-card,.side-card{border-radius:15px}.player-info{padding:13px}.controls{padding:0 13px 14px}.control-row{flex-wrap:wrap}.control-group{gap:5px}.ctrl{padding:8px 9px}.volume{width:62px}.screen{aspect-ratio:16/10}.video-title{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">▶</div><div><h1>Waleed Player</h1><p>مشغّل الفيديوهات الخاص بك</p></div></div>
+    <div class="top-actions"><button class="icon-btn" id="themeBtn" title="تغيير المظهر">☀</button><button class="icon-btn" id="aboutBtn" title="حول التطبيق">ⓘ</button></div>
+  </header>
+  <div class="layout">
+    <main class="main">
+      <section class="player-card">
+        <div class="screen" id="screen">
+          <video id="video" playsinline preload="metadata"></video>
+          <div class="empty" id="empty">
+            <div class="big">▶</div><h2>ابدأ مشاهدة فيديوهاتك</h2><p>اختر فيديو من جهازك أو أضف رابط فيديو مباشر</p>
+          </div>
+        </div>
+        <div class="player-info">
+          <div class="video-title" id="videoTitle">لم يتم اختيار فيديو</div>
+          <div class="subline" id="videoSub">MP4 · WebM · وغيرها حسب دعم المتصفح</div>
+        </div>
+        <div class="controls">
+          <div class="seek-wrap"><span id="currentTime">00:00</span><input class="seek" id="seek" type="range" min="0" max="1000" value="0"><span id="duration">00:00</span></div>
+          <div class="control-row">
+            <div class="control-group">
+              <button class="ctrl" id="backBtn" title="رجوع 10 ثوانٍ">↶ 10</button>
+              <button class="ctrl play" id="playBtn" title="تشغيل / إيقاف">▶</button>
+              <button class="ctrl" id="forwardBtn" title="تقديم 10 ثوانٍ">10 ↷</button>
+              <button class="ctrl" id="nextBtn" title="الفيديو التالي">⏭</button>
+            </div>
+            <div class="control-group">
+              <span style="font-size:13px">🔊</span><input class="volume" id="volume" type="range" min="0" max="1" step=".01" value="1">
+              <select class="select" id="speed" title="سرعة التشغيل"><option value=".5">0.5×</option><option value=".75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2">2×</option></select>
+              <button class="ctrl" id="pipBtn" title="صورة داخل صورة">▣</button>
+              <button class="ctrl" id="fullBtn" title="ملء الشاشة">⛶</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <aside class="sidebar">
+      <section class="side-card">
+        <div class="side-head"><h3>إضافة فيديو</h3><span class="count">مصدران</span></div>
+        <div class="add-buttons">
+          <button class="add-btn" id="localBtn"><b>📁</b>من الجهاز</button>
+          <button class="add-btn" id="urlFocus"><b>🔗</b>من رابط</button>
+        </div>
+        <input id="fileInput" type="file" accept="video/*,.mkv,.avi,.mov,.mp4,.webm" multiple hidden>
+        <div class="url-row"><input id="urlInput" type="url" placeholder="الصق رابط فيديو مباشر"><button class="primary" id="addUrl">إضافة</button></div>
+        <p class="hint">ملاحظة: يجب أن يكون الرابط رابط ملف فيديو مباشر مثل MP4 أو WebM، وليس رابط صفحة YouTube أو Facebook.</p>
+      </section>
+      <section class="side-card playlist-card">
+        <div class="side-head"><h3>قائمة التشغيل</h3><span class="count" id="count">0 فيديو</span></div>
+        <div class="playlist" id="playlist"><div class="empty-list">قائمة التشغيل فارغة حالياً</div></div>
+        <div class="tools" style="margin-top:12px"><button class="soft-btn" id="clearBtn">مسح القائمة</button><button class="soft-btn" id="repeatBtn">التكرار: إيقاف</button></div>
+      </section>
+      <section class="side-card">
+        <div class="side-head"><h3>اختصارات لوحة المفاتيح</h3></div>
+        <p class="hint">مسافة: تشغيل/إيقاف<br>← / → : رجوع أو تقديم 5 ثوانٍ<br>↑ / ↓ : رفع أو خفض الصوت<br>F : ملء الشاشة<br>M : كتم الصوت</p>
+      </section>
+    </aside>
+  </div>
+  <div class="footer">Waleed Player · يعمل محلياً داخل متصفحك ولا يرفع فيديوهاتك إلى أي خادم</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+ const $ = id => document.getElementById(id);
+ const video = $('video');
+ let items = [], current = -1, repeat = false, toastTimer;
+ const fmt = n => { if(!Number.isFinite(n)) return '00:00'; n=Math.max(0,Math.floor(n)); return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0'); };
+ function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2400)}
+ function safeName(s){return s.replace(/[<>]/g,'').slice(0,180)}
+ function render(){
+   $('count').textContent=items.length+' فيديو';
+   const list=$('playlist'); list.innerHTML='';
+   if(!items.length){list.innerHTML='<div class="empty-list">قائمة التشغيل فارغة حالياً</div>';return}
+   items.forEach((item,i)=>{
+     const row=document.createElement('div');row.className='track'+(i===current?' active':'');
+     const thumb=document.createElement('div');thumb.className='thumb';thumb.textContent='▶';
+     const meta=document.createElement('div');meta.className='track-meta';
+     const name=document.createElement('div');name.className='track-name';name.textContent=item.name;
+     const type=document.createElement('div');type.className='track-type';type.textContent=item.kind==='url'?'رابط إنترنت':'من الجهاز';
+     meta.append(name,type);
+     const del=document.createElement('button');del.className='remove';del.textContent='×';del.title='حذف';del.onclick=e=>{e.stopPropagation();removeItem(i)};
+     row.append(thumb,meta,del);row.onclick=()=>load(i,true);list.append(row);
+   });
+ }
+ function load(i,autoplay=false){
+   if(i<0||i>=items.length)return;
+   current=i;const item=items[i];
+   video.src=item.src;video.load();
+   $('empty').style.display='none';$('videoTitle').textContent=item.name;$('videoSub').textContent=item.kind==='url'?'فيديو من رابط الإنترنت':'فيديو من جهازك';
+   render();$('seek').value=0;$('currentTime').textContent='00:00';$('duration').textContent='00:00';
+   if(autoplay) video.play().catch(()=>toast('اضغط تشغيل لبدء الفيديو'));
+ }
+ function removeItem(i){
+   const wasCurrent=i===current; if(items[i].kind==='file')URL.revokeObjectURL(items[i].src);
+   items.splice(i,1);
+   if(!items.length){current=-1;video.pause();video.removeAttribute('src');video.load();$('empty').style.display='flex';$('videoTitle').textContent='لم يتم اختيار فيديو';$('videoSub').textContent='MP4 · WebM · وغيرها حسب دعم المتصفح'}
+   else if(wasCurrent){current=-1;load(Math.min(i,items.length-1),false)}
+   else if(i<current)current--;
+   render();
+ }
+ function addFiles(files){
+   const arr=[...files].filter(f=>f.type.startsWith('video/')||/\.(mp4|webm|ogg|mov|m4v|mkv|avi)$/i.test(f.name));
+   if(!arr.length){toast('لم يتم العثور على ملفات فيديو');return}
+   arr.forEach(f=>items.push({name:safeName(f.name),src:URL.createObjectURL(f),kind:'file'}));
+   render();if(current===-1)load(0,false);toast('تمت إضافة '+arr.length+' فيديو');
+ }
+ $('localBtn').onclick=()=>$('fileInput').click();
+ $('fileInput').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+ $('urlFocus').onclick=()=>$('urlInput').focus();
+ $('addUrl').onclick=()=>{
+   const raw=$('urlInput').value.trim();if(!raw){toast('أدخل رابط الفيديو أولاً');return}
+   try{const u=new URL(raw);if(!['http:','https:'].includes(u.protocol))throw 0;
+     items.push({name:safeName(decodeURIComponent(u.pathname.split('/').pop()||'فيديو من الإنترنت')),src:u.href,kind:'url'});
+     $('urlInput').value='';render();if(current===-1)load(items.length-1,false);toast('تمت إضافة الرابط');
+   }catch(e){toast('الرابط غير صالح')}
+ };
+ $('urlInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('addUrl').click()});
+ $('playBtn').onclick=()=>{if(!video.src){toast('أضف فيديو أولاً');return}if(video.paused)video.play().catch(()=>toast('تعذر تشغيل الفيديو أو الرابط'));else video.pause()};
+ video.onplay=()=>$('playBtn').textContent='Ⅱ';video.onpause=()=>$('playBtn').textContent='▶';
+ video.ontimeupdate=()=>{if(video.duration){$('seek').value=video.currentTime/video.duration*1000;$('currentTime').textContent=fmt(video.currentTime)}};
+ video.onloadedmetadata=()=>{$('duration').textContent=fmt(video.duration);$('seek').value=0};
+ $('seek').oninput=()=>{if(video.duration)video.currentTime=$('seek').value/1000*video.duration};
+ $('volume').oninput=()=>video.volume=Number($('volume').value);
+ $('speed').onchange=()=>video.playbackRate=Number($('speed').value);
+ $('backBtn').onclick=()=>video.currentTime=Math.max(0,video.currentTime-10);
+ $('forwardBtn').onclick=()=>video.currentTime=Math.min(video.duration||Infinity,video.currentTime+10);
+ function next(){if(!items.length)return;if(current<items.length-1)load(current+1,true);else if(repeat)load(0,true);else toast('وصلت إلى نهاية القائمة')}
+ $('nextBtn').onclick=next;video.onended=()=>{if(repeat)video.currentTime=0,video.play();else next()};
+ $('repeatBtn').onclick=()=>{repeat=!repeat;$('repeatBtn').textContent='التكرار: '+(repeat?'تشغيل':'إيقاف')};
+ $('clearBtn').onclick=()=>{items.forEach(x=>{if(x.kind==='file')URL.revokeObjectURL(x.src)});items=[];current=-1;video.pause();video.removeAttribute('src');video.load();$('empty').style.display='flex';$('videoTitle').textContent='لم يتم اختيار فيديو';$('videoSub').textContent='MP4 · WebM · وغيرها حسب دعم المتصفح';render();toast('تم مسح القائمة')};
+ $('fullBtn').onclick=()=>{const el=$('screen');if(document.fullscreenElement)document.exitFullscreen?.();else el.requestFullscreen?.()};
+ $('pipBtn').onclick=async()=>{try{if(document.pictureInPictureElement)await document.exitPictureInPicture();else if(document.pictureInPictureEnabled&&video.readyState>0)await video.requestPictureInPicture();else toast('ميزة صورة داخل صورة غير مدعومة')}catch(e){toast('تعذر تشغيل صورة داخل صورة')}};
+ $('themeBtn').onclick=()=>{document.body.classList.toggle('light');$('themeBtn').textContent=document.body.classList.contains('light')?'☾':'☀';localStorage.setItem('waleed-theme',document.body.classList.contains('light')?'light':'dark')};
+ if(localStorage.getItem('waleed-theme')==='light'){$('themeBtn').click()}
+ $('aboutBtn').onclick=()=>toast('Waleed Player — مشغل فيديو محلي وخاص');
+ document.addEventListener('keydown',e=>{
+   if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
+   if(e.code==='Space'){e.preventDefault();$('playBtn').click()}
+   if(e.key==='ArrowLeft')video.currentTime=Math.min(video.duration||Infinity,video.currentTime+5);
+   if(e.key==='ArrowRight')video.currentTime=Math.max(0,video.currentTime-5);
+   if(e.key==='ArrowUp'){video.volume=Math.min(1,video.volume+.05);$('volume').value=video.volume}
+   if(e.key==='ArrowDown'){video.volume=Math.max(0,video.volume-.05);$('volume').value=video.volume}
+   if(e.key.toLowerCase()==='f')$('fullBtn').click();
+   if(e.key.toLowerCase()==='m')video.muted=!video.muted;
+ });
+ window.addEventListener('beforeunload',()=>items.forEach(x=>{if(x.kind==='file')URL.revokeObjectURL(x.src)}));
+ render();
+})();
+</script>
+</body>
+</html>
